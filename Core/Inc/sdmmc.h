@@ -1,9 +1,9 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    usb_otg.h
+  * @file    sdmmc.h
   * @brief   This file contains all the function prototypes for
-  *          the usb_otg.c file
+  *          the sdmmc.c file
   ******************************************************************************
   * @attention
   *
@@ -18,8 +18,8 @@
   */
 /* USER CODE END Header */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USB_OTG_H__
-#define __USB_OTG_H__
+#ifndef __SDMMC_H__
+#define __SDMMC_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,13 +32,13 @@ extern "C" {
 
 /* USER CODE END Includes */
 
-extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
+extern SD_HandleTypeDef hsd1;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_USB_OTG_FS_PCD_Init(void);
+void MX_SDMMC1_SD_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -48,5 +48,5 @@ void MX_USB_OTG_FS_PCD_Init(void);
 }
 #endif
 
-#endif /* __USB_OTG_H__ */
+#endif /* __SDMMC_H__ */
 

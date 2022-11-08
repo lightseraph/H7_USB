@@ -1,9 +1,9 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * File Name          : FMC.h
-  * Description        : This file provides code for the configuration
-  *                      of the FMC peripheral.
+  * @file    tim.h
+  * @brief   This file contains all the function prototypes for
+  *          the tim.c file
   ******************************************************************************
   * @attention
   *
@@ -18,10 +18,11 @@
   */
 /* USER CODE END Header */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __FMC_H
-#define __FMC_H
+#ifndef __TIM_H__
+#define __TIM_H__
+
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -31,18 +32,13 @@
 
 /* USER CODE END Includes */
 
-extern NAND_HandleTypeDef hnand1;
-extern SDRAM_HandleTypeDef hsdram1;
+extern TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_FMC_Init(void);
-void HAL_NAND_MspInit(NAND_HandleTypeDef* hnand);
-void HAL_NAND_MspDeInit(NAND_HandleTypeDef* hnand);
-void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef* hsdram);
-void HAL_SDRAM_MspDeInit(SDRAM_HandleTypeDef* hsdram);
+void MX_TIM6_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -51,12 +47,6 @@ void HAL_SDRAM_MspDeInit(SDRAM_HandleTypeDef* hsdram);
 #ifdef __cplusplus
 }
 #endif
-#endif /*__FMC_H */
 
-/**
-  * @}
-  */
+#endif /* __TIM_H__ */
 
-/**
-  * @}
-  */
