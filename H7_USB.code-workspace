@@ -4,5 +4,12 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"*.ino": "cpp",
+			"norflash.h": "c",
+			"pcf8574.h": "c",
+			"usbd_msc.h": "c"
+		}
+	}
 }

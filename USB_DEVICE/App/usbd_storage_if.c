@@ -1,28 +1,30 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : usbd_storage_if.c
-  * @version        : v1.0_Cube
-  * @brief          : Memory management layer.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : usbd_storage_if.c
+ * @version        : v1.0_Cube
+ * @brief          : Memory management layer.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_storage_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-
+#include "sys.h"
+#include "nand.h"
+#include "ftl.h"
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -80,7 +82,7 @@
   */
 
 /* USER CODE BEGIN PRIVATE_MACRO */
-
+vu8 USB_STATUS_REG = 0;
 /* USER CODE END PRIVATE_MACRO */
 
 /**
@@ -94,21 +96,22 @@
 
 /* USER CODE BEGIN INQUIRY_DATA_FS */
 /** USB Mass storage Standard Inquiry Data. */
-const int8_t STORAGE_Inquirydata_FS[] = {/* 36 */
+const int8_t STORAGE_Inquirydata_FS[] = {
+    /* 36 */
 
-  /* LUN 0 */
-  0x00,
-  0x80,
-  0x02,
-  0x02,
-  (STANDARD_INQUIRY_DATA_LEN - 5),
-  0x00,
-  0x00,
-  0x00,
-  'S', 'T', 'M', ' ', ' ', ' ', ' ', ' ', /* Manufacturer : 8 bytes */
-  'P', 'r', 'o', 'd', 'u', 'c', 't', ' ', /* Product      : 16 Bytes */
-  ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
-  '0', '.', '0' ,'1'                      /* Version      : 4 Bytes */
+    /* LUN 0 */
+    0x00,
+    0x80,
+    0x02,
+    0x02,
+    (STANDARD_INQUIRY_DATA_LEN - 5),
+    0x00,
+    0x00,
+    0x00,
+    'S', 'T', 'M', ' ', ' ', ' ', ' ', ' ', /* Manufacturer : 8 bytes */
+    'P', 'r', 'o', 'd', 'u', 'c', 't', ' ', /* Product      : 16 Bytes */
+    ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',
+    '0', '.', '0', '1' /* Version      : 4 Bytes */
 };
 /* USER CODE END INQUIRY_DATA_FS */
 
@@ -177,8 +180,8 @@ USBD_StorageTypeDef USBD_Storage_Interface_fops_FS =
 int8_t STORAGE_Init_FS(uint8_t lun)
 {
   /* USER CODE BEGIN 2 */
- UNUSED(lun);
-
+  UNUSED(lun);
+  FTL_Init();
   return (USBD_OK);
   /* USER CODE END 2 */
 }
@@ -195,8 +198,10 @@ int8_t STORAGE_GetCapacity_FS(uint8_t lun, uint32_t *block_num, uint16_t *block_
   /* USER CODE BEGIN 3 */
   UNUSED(lun);
 
-  *block_num  = STORAGE_BLK_NBR;
-  *block_size = STORAGE_BLK_SIZ;
+  //*block_num = STORAGE_BLK_NBR;
+  //*block_size = STORAGE_BLK_SIZ;
+  *block_size = 512;
+  *block_num = nand_dev.valid_blocknum * nand_dev.block_pagenum * nand_dev.page_mainsize / 512;
   return (USBD_OK);
   /* USER CODE END 3 */
 }
@@ -240,11 +245,9 @@ int8_t STORAGE_IsWriteProtected_FS(uint8_t lun)
 int8_t STORAGE_Read_FS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t blk_len)
 {
   /* USER CODE BEGIN 6 */
-  UNUSED(lun);
-  UNUSED(buf);
-  UNUSED(blk_addr);
-  UNUSED(blk_len);
-
+  int8_t res = 0;
+  USB_STATUS_REG |= 0X02;
+  res = FTL_ReadSectors(buf, blk_addr, 512, blk_len);
   return (USBD_OK);
   /* USER CODE END 6 */
 }
@@ -261,10 +264,9 @@ int8_t STORAGE_Write_FS(uint8_t lun, uint8_t *buf, uint32_t blk_addr, uint16_t b
 {
   /* USER CODE BEGIN 7 */
   UNUSED(lun);
-  UNUSED(buf);
-  UNUSED(blk_addr);
-  UNUSED(blk_len);
-
+  int8_t res = 0;
+  USB_STATUS_REG |= 0X01;
+  res = FTL_WriteSectors(buf, blk_addr, 512, blk_len);
   return (USBD_OK);
   /* USER CODE END 7 */
 }

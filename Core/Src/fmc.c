@@ -1,21 +1,24 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * File Name          : FMC.c
-  * Description        : This file provides code for the configuration
-  *                      of the FMC peripheral.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * File Name          : FMC.c
+ * Description        : This file provides code for the configuration
+ *                      of the FMC peripheral.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
+#include "sys.h"
+#include "sdram.h"
+#include "nand.h"
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
@@ -107,7 +110,7 @@ void MX_FMC_Init(void)
   }
 
   /* USER CODE BEGIN FMC_Init 2 */
-
+  SDRAM_Init();
   /* USER CODE END FMC_Init 2 */
 }
 
@@ -281,6 +284,9 @@ static void HAL_FMC_MspInit(void){
 
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+  /* Peripheral interrupt init */
+  HAL_NVIC_SetPriority(FMC_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(FMC_IRQn);
   /* USER CODE BEGIN FMC_MspInit 1 */
 
   /* USER CODE END FMC_MspInit 1 */
@@ -408,6 +414,8 @@ static void HAL_FMC_MspDeInit(void){
 
   HAL_GPIO_DeInit(GPIOC, GPIO_PIN_0|GPIO_PIN_2|GPIO_PIN_3);
 
+  /* Peripheral interrupt DeInit */
+  HAL_NVIC_DisableIRQ(FMC_IRQn);
   /* USER CODE BEGIN FMC_MspDeInit 1 */
 
   /* USER CODE END FMC_MspDeInit 1 */

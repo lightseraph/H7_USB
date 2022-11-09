@@ -56,8 +56,9 @@
 
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
+extern NAND_HandleTypeDef hnand1;
+extern SDRAM_HandleTypeDef hsdram1;
 extern LTDC_HandleTypeDef hltdc;
-extern SD_HandleTypeDef hsd1;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -201,17 +202,18 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles SDMMC1 global interrupt.
+  * @brief This function handles FMC global interrupt.
   */
-void SDMMC1_IRQHandler(void)
+void FMC_IRQHandler(void)
 {
-  /* USER CODE BEGIN SDMMC1_IRQn 0 */
+  /* USER CODE BEGIN FMC_IRQn 0 */
 
-  /* USER CODE END SDMMC1_IRQn 0 */
-  HAL_SD_IRQHandler(&hsd1);
-  /* USER CODE BEGIN SDMMC1_IRQn 1 */
+  /* USER CODE END FMC_IRQn 0 */
+  HAL_NAND_IRQHandler(&hnand1);
+  HAL_SDRAM_IRQHandler(&hsdram1);
+  /* USER CODE BEGIN FMC_IRQn 1 */
 
-  /* USER CODE END SDMMC1_IRQn 1 */
+  /* USER CODE END FMC_IRQn 1 */
 }
 
 /**

@@ -1,27 +1,30 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file    ltdc.c
-  * @brief   This file provides code for the configuration
-  *          of the LTDC instances.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file    ltdc.c
+ * @brief   This file provides code for the configuration
+ *          of the LTDC instances.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2022 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "ltdc.h"
 
 /* USER CODE BEGIN 0 */
+_ltdc_dev lcdltdc;
+u32 *ltdc_framebuf[2];
 
+u32 ltdc_lcd_framebuf[800][480] __attribute__((section(".color_buf")));
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;

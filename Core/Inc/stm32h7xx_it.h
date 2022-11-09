@@ -55,7 +55,7 @@ void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
-void SDMMC1_IRQHandler(void);
+void FMC_IRQHandler(void);
 void LTDC_IRQHandler(void);
 void OTG_FS_EP1_OUT_IRQHandler(void);
 void OTG_FS_EP1_IN_IRQHandler(void);
