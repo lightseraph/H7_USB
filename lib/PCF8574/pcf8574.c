@@ -57,7 +57,7 @@ void PCF8574_WriteOneByte(u8 DataToWrite)
     IIC_Send_Byte(DataToWrite); //发送字节
     IIC_Wait_Ack();
     IIC_Stop(); //产生一个停止条件
-    HAL_Delay(10);
+    delay_ms(10);
 }
 
 //设置PCF8574某个IO的高低电平

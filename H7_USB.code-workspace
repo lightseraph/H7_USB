@@ -9,7 +9,8 @@
 			"*.ino": "cpp",
 			"norflash.h": "c",
 			"pcf8574.h": "c",
-			"usbd_msc.h": "c"
+			"usbd_msc.h": "c",
+			"sdmmc_sdcard.h": "c"
 		}
 	}
 }
